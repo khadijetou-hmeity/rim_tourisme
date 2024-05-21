@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "353314204506",
+    "project_id": "pfe1-4c9de",
+    "storage_bucket": "pfe1-4c9de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353314204506:android:6c5277992096faea09e163",
+        "android_client_info": {
+          "package_name": "com.example.pfe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyeeyHma5mrIs84DWa6eF793fX0e7ug9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353314204506:android:ad6f43af87df134a09e163",
+        "android_client_info": {
+          "package_name": "com.example.rim_tourisme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyeeyHma5mrIs84DWa6eF793fX0e7ug9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

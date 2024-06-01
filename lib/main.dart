@@ -5,7 +5,6 @@ import 'package:rim_tourisme/firebase_options.dart';
 import 'package:rim_tourisme/homepage.dart';
 import 'package:rim_tourisme/login/login.dart';
 import 'package:rim_tourisme/login/singup.dart';
-// Importez LoginPage ici
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

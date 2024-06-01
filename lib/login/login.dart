@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rim_tourisme/homepage.dart';
 import 'package:rim_tourisme/login/singup.dart'; // Assurez-vous d'importer la page d'accueil
 import 'package:awesome_dialog/awesome_dialog.dart';
+
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -116,7 +118,7 @@ void _login() async {
                     style: TextStyle(fontSize: 18),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Color.fromRGBO(56, 142, 60, 1),
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -128,7 +130,7 @@ void _login() async {
                   onPressed: _goToSignUp,
                   child: Text(
                     'Vous n\'avez pas de compte ? Inscrivez-vous',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Color.fromRGBO(56, 142, 60, 1)),
                   ),
                 ),
               ],

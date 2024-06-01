@@ -16,123 +16,138 @@ class SimpleProject extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 58, 183, 127),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(56, 142, 60, 1),
               ),
               child: Text(
                 'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.location_city,
-                size: 24,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Villes',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => VillePage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.home,
-                size: 24,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Logements',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              onTap: () {
-                // Mettez ici le code pour gérer le tap sur Logements
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.location_on,
-                size: 24,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Meilleurs lieux à visiter',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              onTap: () {
-                // Mettez ici le code pour gérer le tap sur Meilleurs lieux à visiter
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.restaurant,
-                size: 24,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Restaurants',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              onTap: () {
-                // Mettez ici le code pour gérer le tap sur Restaurants
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.business,
-                size: 24,
-                color: Colors.black,
-              ),
-              title: Text(
-                'Nos services',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              onTap: () {
-                // Mettez ici le code pour gérer le tap sur Nos services
-              },
-            ),
-          ],
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+          ),
         ),
       ),
+      ListTile(
+        leading: SvgPicture.asset(
+          'assets/icons/city-svgrepo-com.svg',
+          width: 30,
+          height: 30,
+          
+        ),
+        title: Text(
+          'Villes',
+          style: TextStyle(
+            
+            fontSize: 16,
+          ),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VillePage()),
+          );
+        },
+      ),
+      ListTile(
+        leading: SvgPicture.asset(
+          'assets/icons/hotel-svgrepo-com (2).svg',
+            width: 30,
+          height: 30,
+          
+        ),
+        title: Text(
+          'Hotels',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+          ),
+        ),
+        onTap: () {
+          // Mettez ici le code pour gérer le tap sur Logements
+        },
+      ),
+      ListTile(
+        leading: SvgPicture.asset(
+          'assets/icons/location-svgrepo-com.svg',
+          width: 30,
+          height: 30,
+          
+        ),
+        title: Text(
+          'Meilleurs lieux',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+          ),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VillePage()),
+          );
+        },
+      ),
+      ListTile(
+        leading: SvgPicture.asset(
+          'assets/icons/restaurant-dish-svgrepo-com.svg',
+          width: 30,
+          height: 30,
+          
+        ),
+        title: Text(
+          'Restaurants',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+          ),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VillePage()),
+          );
+        },
+      ),
+      ListTile(
+        leading: SvgPicture.asset(
+          'assets/icons/guide-human-svgrepo-com.svg',
+          width: 30,
+          height: 30,
+          
+        ),
+        title: Text(
+          'Prendre un guide',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+          ),
+        ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VillePage()),
+          );
+        },
+      ),
+      // Autres éléments de la liste de votre Drawer avec des images SVG
+    ],
+  ),
+),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: const Color.fromARGB(255, 58, 183, 127),
-            floating: false,
+            backgroundColor: const Color.fromRGBO(56, 142, 60, 1),
             pinned: true,
-            expandedHeight: 180.0,
+            expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: false,
               title: Text(
                 'RIMTourisme',
-                style: TextStyle(color: Color.fromARGB(186, 0, 0, 0), fontSize: 18),
+                style: TextStyle(
+                    color: Color.fromARGB(186, 0, 0, 0), fontSize: 18),
               ),
               background: Container(
-                color: Color.fromARGB(255, 85, 210, 154),
+                color: Color.fromRGBO(56, 142, 60, 1),
               ),
             ),
             actions: [
@@ -158,10 +173,14 @@ class SimpleProject extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  _buildCategoryTile('Plage', 'assets/icons/beach-sunny-svgrepo-com.svg'),
-                  _buildCategoryTile('Montagne', 'assets/icons/mountain-svgrepo-com.svg'),
-                  _buildCategoryTile('Marais', 'assets/icons/wetland-svgrepo-com.svg'),
-                  _buildCategoryTile('Palmiers', 'assets/icons/palm-trees-svgrepo-com.svg'),
+                  _buildCategoryTile(
+                      'Plage', 'assets/icons/beach-sunny-svgrepo-com.svg'),
+                  _buildCategoryTile(
+                      'Montagnes', 'assets/icons/mountain-svgrepo-com.svg'),
+                  _buildCategoryTile(
+                      'Marais', 'assets/icons/wetland-svgrepo-com.svg'),
+                  _buildCategoryTile(
+                      'Palmiers', 'assets/icons/palm-trees-svgrepo-com.svg'),
                 ],
               ),
             ),
@@ -265,6 +284,7 @@ class VilleListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Liste des Villes'),
+        backgroundColor: Color.fromRGBO(56, 142, 60, 1),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('ville').snapshots(),
@@ -287,16 +307,21 @@ class VilleListPage extends StatelessWidget {
             itemCount: villes.length,
             itemBuilder: (context, index) {
               var ville = villes[index];
-              return ListTile(
-                title: Text(ville['nom']),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VillePage(),
-                    ),
-                  );
-                },
+              return Card(
+                margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                elevation: 4.0,
+                child: ListTile(
+                  title: Text(ville['nom']),
+                  trailing: Icon(Icons.arrow_forward_ios, color: Colors.black),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VillePage(),
+                      ),
+                    );
+                  },
+                ),
               );
             },
           );

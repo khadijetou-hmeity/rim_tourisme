@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:rim_tourisme/models/restaut.dart';
+import 'package:rim_tourisme/models/lieux.dart';
+import 'package:rim_tourisme/models/logement.dart';
+import 'package:rim_tourisme/models/restaurant.dart';
 
 class VillePage extends StatefulWidget {
   const VillePage({Key? key}) : super(key: key);
@@ -19,8 +20,14 @@ class _VillePageState extends State<VillePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Villes'),
+        title: Text('Villes' , style: TextStyle(fontSize: 18),) ,
         backgroundColor: Color.fromRGBO(56, 142, 60, 1),
+        shape: ContinuousRectangleBorder(
+    borderRadius: BorderRadius.only(
+      bottomLeft: Radius.circular(30), // Coin inférieur gauche arrondi
+      bottomRight: Radius.circular(30), // Coin inférieur droit arrondi
+    ),
+  ),
       ),
       body: Stack(
         children: [
@@ -41,7 +48,7 @@ class _VillePageState extends State<VillePage> {
 
               var filteredDocs = snapshot.data!.docs.where((doc) {
                 Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                return data['nom'].toLowerCase().contains(searchQuery);
+                return data['nom'] != null && data['nom'].toLowerCase().contains(searchQuery);
               }).toList();
 
               return GridView.builder(
@@ -92,15 +99,12 @@ class _VillePageState extends State<VillePage> {
                                 Text(
                                   data['nom'],
                                   style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 SizedBox(height: 4.0),
-                                Text(
-                                  data['type'],
-                                  style: TextStyle(fontSize: 14.0),
-                                ),
+                                
                               ],
                             ),
                           ),
@@ -147,8 +151,6 @@ class _VillePageState extends State<VillePage> {
   }
 }
 
-
-
 class VilleDetailPage extends StatefulWidget {
   final Map<String, dynamic> villeData;
 
@@ -171,8 +173,14 @@ class _VilleDetailPageState extends State<VilleDetailPage> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.villeData['nom']),
+        title: Text(widget.villeData['nom'],style: TextStyle(fontSize: 18)),
         backgroundColor: Color.fromRGBO(56, 142, 60, 1),
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30), // Coin inférieur gauche arrondi
+            bottomRight: Radius.circular(30), // Coin inférieur droit arrondi
+          ),
+        ),
         bottom: TabBar(
           controller: _tabController,
           tabs: [
@@ -199,7 +207,7 @@ class _VilleDetailPageState extends State<VilleDetailPage> with SingleTickerProv
                 SizedBox(height: 16.0),
                 Text(
                   widget.villeData['nom'],
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 8.0),
                 Text(
@@ -208,25 +216,15 @@ class _VilleDetailPageState extends State<VilleDetailPage> with SingleTickerProv
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  'Distance: ${widget.villeData['distance']}',
+                  ' ${widget.villeData['distance']}',
                   style: TextStyle(fontSize: 16.0),
                 ),
                 // Ajoutez d'autres détails ici selon vos besoins
                 SizedBox(height: 16.0),
                 Row(
                   children: [
-                    IconButton(
-                      icon: Icon(Icons.thumb_up, color: Colors.blue),
-                      onPressed: () {
-                        // Logique pour aimer la photo
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.comment, color: Colors.blue),
-                      onPressed: () {
-                        // Logique pour ajouter un commentaire
-                      },
-                    ),
+                    
+                    
                   ],
                 ),
               ],
@@ -245,28 +243,28 @@ class _VilleDetailPageState extends State<VilleDetailPage> with SingleTickerProv
                 ),
                 SizedBox(height: 16.0),
                 InkWell(
-                onTap: () {
-                            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RestaurantPage(villeData: widget.villeData),
-              ),
-            );
-                },
-                child: _buildAttractionCard('Restaurants', Icons.restaurant),
-              ),
-                SizedBox(height: 8.0),
-              InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LogementsPage(villeData: widget.villeData),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RestaurantPage(villeData: widget.villeData),
+                      ),
+                    );
+                  },
+                  child: _buildAttractionCard('Restaurants', Icons.restaurant),
                 ),
-              );
-            },
-            child: _buildAttractionCard('Logements', Icons.hotel),
-          ),
+                SizedBox(height: 8.0),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LogementsPage(villeData: widget.villeData),
+                      ),
+                    );
+                  },
+                  child: _buildAttractionCard('Logements', Icons.hotel),
+                ),
                 SizedBox(height: 8.0),
                 InkWell(
                   onTap: () {

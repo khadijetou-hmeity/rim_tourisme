@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rim_tourisme/homepage.dart'; // Assurez-vous d'importer la page d'accueil
+import 'package:country_list_pick/country_list_pick.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _SignUpState extends State<SignUp> {
   late TextEditingController _lastNameController;
   late TextEditingController _emailController;
   late TextEditingController _ageController;
-  late TextEditingController _countryController; // Ajouter le contrôleur pour le pays
+  late String _selectedCountry = 'Mauritanie'; // Pays sélectionné par défaut
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
 
@@ -27,7 +28,6 @@ class _SignUpState extends State<SignUp> {
     _lastNameController = TextEditingController();
     _emailController = TextEditingController();
     _ageController = TextEditingController();
-    _countryController = TextEditingController(); // Initialiser le contrôleur pour le pays
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
   }
@@ -38,7 +38,6 @@ class _SignUpState extends State<SignUp> {
     _lastNameController.dispose();
     _emailController.dispose();
     _ageController.dispose();
-    _countryController.dispose(); // Supprimer le contrôleur pour le pays
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -51,7 +50,6 @@ class _SignUpState extends State<SignUp> {
     String lastName = _lastNameController.text.trim();
     String email = _emailController.text.trim();
     String age = _ageController.text.trim();
-    String country = _countryController.text.trim(); // Récupérer la valeur du pays
     String password = _passwordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
 
@@ -64,7 +62,8 @@ class _SignUpState extends State<SignUp> {
     }
 
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -72,22 +71,25 @@ class _SignUpState extends State<SignUp> {
       // Envoi d'un email de vérification
       await credential.user!.sendEmailVerification();
 
-      // Enregistrer les données de l'utilisateur dans Firestore
-      await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).set({
-        'Prénom': firstName,
-        'Nom': lastName,
-        'Email': email,
-        'Âge': int.parse(age),
-        'Pays': country, // Enregistrer le pays
-        'userId': credential.user!.uid,
-      });
-
       // Rediriger vers la page d'attente de vérification après l'inscription réussie
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => EmailVerificationPage()),
       );
 
+      // Enregistrer les données de l'utilisateur dans Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(credential.user!.uid)
+          .set({
+        'Prénom': firstName,
+        'Nom': lastName,
+        'Email': email,
+        'Âge': int.parse(age),
+        'Pays': _selectedCountry,
+        'password':password,
+        'userId': credential.user!.uid,
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -111,6 +113,12 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         title: Text('Inscription'),
         backgroundColor: Color.fromRGBO(56, 142, 60, 1),
+      shape: ContinuousRectangleBorder(
+    borderRadius: BorderRadius.only(
+      bottomLeft: Radius.circular(30), // Coin inférieur gauche arrondi
+      bottomRight: Radius.circular(30), // Coin inférieur droit arrondi
+    ),
+  ),  
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -118,20 +126,15 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              Container(
-                alignment: Alignment.topCenter,
-                child: Image.asset(
-                  "assets/images/logo.jpeg",
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-              SizedBox(height: 20),
+              
               TextFormField(
                 controller: _firstNameController,
                 decoration: InputDecoration(
                   labelText: 'Prénom',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -139,6 +142,10 @@ class _SignUpState extends State<SignUp> {
                 controller: _lastNameController,
                 decoration: InputDecoration(
                   labelText: 'Nom',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -146,6 +153,10 @@ class _SignUpState extends State<SignUp> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -153,21 +164,62 @@ class _SignUpState extends State<SignUp> {
                 controller: _ageController,
                 decoration: InputDecoration(
                   labelText: 'Âge',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 20),
-              TextFormField(
-                controller: _countryController, // Champ de texte pour le pays
-                decoration: InputDecoration(
-                  labelText: 'Nationalité',
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Votre pays',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  TextFormField(
+                    readOnly: true,
+                    controller: TextEditingController(text: _selectedCountry),
+                    decoration: InputDecoration(
+                      
+                      labelStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  CountryListPick(
+                    theme: CountryTheme(
+                      isShowFlag: true,
+                      isShowTitle: true,
+                      isShowCode: false,
+                      isDownIcon: true,
+                      showEnglishName: true,
+                    ),
+                    onChanged: (CountryCode? code) {
+                      setState(() {
+                        _selectedCountry = code!.name!;
+                      });
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 1),
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Mot de passe',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 obscureText: true,
               ),
@@ -176,14 +228,39 @@ class _SignUpState extends State<SignUp> {
                 controller: _confirmPasswordController,
                 decoration: InputDecoration(
                   labelText: 'Confirmer le mot de passe',
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 obscureText: true,
               ),
               SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _signUp,
-                child: Text('S\'inscrire'),
-              ),
+              Center(
+  child: SizedBox(
+    width: 200, // Définissez la largeur souhaitée ici
+    child: TextButton(
+      onPressed: _signUp,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(56, 142, 60, 1)),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15)),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+      child: Text(
+        'S\'inscrire',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  ),
+),
             ],
           ),
         ),

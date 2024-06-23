@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rim_tourisme/homepage.dart';
-import 'package:rim_tourisme/login/singup.dart'; // Assurez-vous d'importer la page d'accueil
-import 'package:awesome_dialog/awesome_dialog.dart';
-
+import 'package:rim_tourisme/login/singup.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -29,44 +27,61 @@ class _LoginState extends State<Login> {
     _passwordController.dispose();
     super.dispose();
   }
-void _login() async {
-  String email = _emailController.text.trim();
-  String password = _passwordController.text.trim();
 
-  try {
-    final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    
-    if (userCredential.user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SimpleProject()),
+  void _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    try {
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
+
+      if (userCredential.user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SimpleProject()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        print("incorrecte");
+        _showErrorDialog('Mot de passe ou Email incorrect.');
+      } else {
+        _showErrorDialog('Mot de passe ou Email incorrect.');
+      }
+    } catch (e) {
+      print(e);
+      _showErrorDialog('Une erreur s\'est produite. Veuillez réessayer.');
     }
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-      print("incorrecte");
-      AwesomeDialog(
-            context: context,
-            dialogType: DialogType.info,
-            animType: AnimType.rightSlide,
-            title: 'Erreur de connexion',
-            desc: 'Mot de passe ou Email incorrect. ',
-            btnCancelOnPress: () {},
-            btnOkOnPress: () {},
-            ).show();
-    }
-  } catch (e) {
-    print(e);
   }
-}
 
   void _goToSignUp() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignUp()),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Erreur de connexion'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -84,10 +99,10 @@ void _login() async {
               children: [
                 Image.asset(
                   "assets/images/logo.jpeg",
-                  width: 100, // Taille réduite du logo
-                  height: 100,
+                  width: 130, // Taille réduite du logo
+                  height: 130,
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 70),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -115,7 +130,7 @@ void _login() async {
                   onPressed: _login,
                   child: Text(
                     'Se connecter',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, color: Colors.black),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(56, 142, 60, 1),

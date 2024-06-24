@@ -505,7 +505,7 @@ class _GuideListPageState extends State<GuideListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Liste des guides',style: TextStyle(fontSize: 18)),
+        title: const Text('guides avec caractéristique demandé ',style: TextStyle(fontSize: 16)),
         backgroundColor: const Color.fromRGBO(56, 142, 60, 1),
         shape: const ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -624,7 +624,7 @@ class GuideDetailsPage extends StatelessWidget {
                   onPressed: () {
                     _sendRequest(context, phoneController.text);
                   },
-                  child: const Text('Envoyer une demande'),
+                  child: const Text('Envoyer une demande',style: TextStyle(color: Colors.black),),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                     backgroundColor: const Color.fromRGBO(56, 142, 60, 1),

@@ -235,17 +235,18 @@ class HotelDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: 200.0, // Hauteur pour l'image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12.0),
                 child: Image.network(
                   hotelData['photo'],
-                  fit: BoxFit.contain, // Afficher l'image sans la couper
+                  height: 250,
+                  fit: BoxFit.cover,
                 ),
               ),
               SizedBox(height: 20),
               Text(
                 hotelData['nom'],
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
               Text(
@@ -296,7 +297,7 @@ class HotelDetailPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              // Vous pouvez ajouter plus de détails sur l'hôtel ici si nécessaire
+              // Vous pouvez ajouter plus de détails sur le logement ici si nécessaire
             ],
           ),
         ),

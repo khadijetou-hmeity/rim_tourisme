@@ -160,6 +160,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
 
 
 
+
 class RestaurantDetailPage extends StatefulWidget {
   final Map<String, dynamic> restaurantData;
   final Map<String, dynamic> villeData;
@@ -263,7 +264,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.restaurantData['nom']} - ${widget.villeData['nom']}'),
+        title: Text('${widget.restaurantData['nom']} - ${widget.villeData['nom']}',style: TextStyle(fontSize: 16),),
         backgroundColor: Color.fromRGBO(56, 142, 60, 1),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -272,83 +273,82 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              flex: 2,
-              child: ClipRRect(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ClipRRect(
                 borderRadius: BorderRadius.circular(12.0),
                 child: Image.network(
                   widget.restaurantData['photo'],
                   fit: BoxFit.cover,
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              widget.restaurantData['nom'],
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              widget.restaurantData['description'],
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Localisation:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Container(
-              height: 200,
-              child: FlutterMap(
-                options: MapOptions(
-                  center: location,
-                  zoom: 15,
-                ),
-                children: [
-                  TileLayer(
-                    urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    subdomains: ['a', 'b', 'c'],
-                  ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        width: 80.0,
-                        height: 80.0,
-                        point: location,
-                        // Directly provide the child widget here
-                        child: Icon(Icons.location_on, color: Colors.red, size: 40),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            if (_distanceInMeters != null)
+              SizedBox(height: 20),
               Text(
-                'Distance: ${(_distanceInMeters! / 1000).toStringAsFixed(2)} km',
+                widget.restaurantData['nom'],
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                widget.restaurantData['description'],
                 style: TextStyle(fontSize: 16),
               ),
-            SizedBox(height: 20),
-            TextButton(
-              onPressed: _launchMaps,
-              child: Text(
-                'Voir la route sur Google Maps',
-                style: TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
+              SizedBox(height: 20),
+              Text(
+                'Localisation:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Container(
+                height: 200,
+                child: FlutterMap(
+                  options: MapOptions(
+                    center: location,
+                    zoom: 15,
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      subdomains: ['a', 'b', 'c'],
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          width: 80.0,
+                          height: 80.0,
+                          point: location,
+                          // Directly provide the child widget here
+                          child: Icon(Icons.location_on, color: Colors.red, size: 40),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            // Vous pouvez ajouter plus de détails sur le restaurant ici si nécessaire
-          ],
+              SizedBox(height: 20),
+              if (_distanceInMeters != null)
+                Text(
+                  'Distance: ${(_distanceInMeters! / 1000).toStringAsFixed(2)} km',
+                  style: TextStyle(fontSize: 16),
+                ),
+              SizedBox(height: 20),
+              TextButton(
+                onPressed: _launchMaps,
+                child: Text(
+                  'Voir la route sur Google Maps',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              // Vous pouvez ajouter plus de détails sur le restaurant ici si nécessaire
+            ],
+          ),
         ),
       ),
     );

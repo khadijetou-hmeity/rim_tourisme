@@ -16,7 +16,7 @@ class _MeilleursState extends State<Meilleurs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meilleurs Lieux',style: TextStyle(fontSize: 18)),
+        title: Text('Meilleurs Lieux à visiter',style: TextStyle(fontSize: 18)),
         backgroundColor: Color.fromRGBO(56, 142, 60, 1),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -192,18 +192,17 @@ class _MeilleursState extends State<Meilleurs> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(12.0),
+                              padding: EdgeInsets.all(6.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     nomLieu,
                                     style: TextStyle(
-                                      fontSize: 12.0,
+                                      fontSize: 13.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                
                                 ],
                               ),
                             ),

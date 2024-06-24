@@ -65,7 +65,7 @@ class SimpleProject extends StatelessWidget {
                 height: 30,
               ),
               title: Text(
-                'Hotels',
+                'Meilleurs Hotels',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -85,7 +85,7 @@ class SimpleProject extends StatelessWidget {
                 height: 30,
               ),
               title: Text(
-                'Meilleurs lieux',
+                'Meilleurs Lieux',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -105,7 +105,7 @@ class SimpleProject extends StatelessWidget {
                 height: 30,
               ),
               title: Text(
-                'Restaurants',
+                'Meilleurs Restaurants',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -139,7 +139,7 @@ class SimpleProject extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.exit_to_app, color: Colors.black),
+              leading: Icon(Icons.exit_to_app, color: Colors.black,),
               title: Text(
                 'Déconnexion',
                 style: TextStyle(
@@ -486,7 +486,7 @@ class _LieuxCategoriePageState extends State<LieuxCategoriePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lieux',style: TextStyle(fontSize: 18),),
+        title: Text('${widget.categorie}',style: TextStyle(fontSize: 18),),
       backgroundColor: Color.fromRGBO(56, 142, 60, 1),
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
